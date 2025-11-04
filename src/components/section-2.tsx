@@ -8,7 +8,7 @@ const Section2 = () => {
                 <p className="mt-6 text-lg text-main-indigo">
                     We design and manufacture our own <span className="text-main-turquoise font-bold">membraneless electrolyzer.</span>
                     <br />
-                    By changing core materials and internal architecture, we cut productuion costs by <span className="text-2xl font-bold text-main-turquoise">{'>'}2X </span>versus typical green H2 approaches.
+                    By changing core materials and internal architecture, we cut production costs by <span className="text-2xl font-bold text-main-turquoise">{'>'}2X </span>versus typical green H2 approaches.
                 </p>
                 <p className="mt-6 text-lg text-main-indigo">
                     We are on track to become
