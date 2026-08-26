@@ -60,20 +60,26 @@
       /* ─────────────── NAVBAR ─────────────── */
       #navbar {
         position: fixed;
-        top: 0;
-        width: 100%;
+        top: 14px;
+        left: 18px;
+        right: 18px;
+        width: auto;
         z-index: 1000;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 22px 64px;
+        padding: 13px 30px;
+        background: rgba(0, 13, 20, 0.45);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 100px;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
         transition: var(--transition);
       }
       #navbar.scrolled {
-        background: rgba(0, 13, 20, 0.96);
-        backdrop-filter: blur(14px);
-        padding: 14px 64px;
-        border-bottom: 1px solid rgba(0, 208, 197, 0.18);
+        background: rgba(0, 13, 20, 0.92);
+        padding: 10px 30px;
+        border-color: rgba(0, 208, 197, 0.2);
       }
       .nav-brand {
         display: flex;
@@ -109,15 +115,34 @@
       .nav-links a:hover {
         color: var(--turquoise);
       }
-      .nav-links .btn-nav {
+      .nav-links a.active {
+        color: var(--turquoise);
+        position: relative;
+      }
+      .nav-links a.active::after {
+        content: "";
+        position: absolute;
+        left: 25%;
+        right: 25%;
+        bottom: -8px;
+        height: 2px;
+        border-radius: 2px;
         background: var(--turquoise);
-        color: var(--bg-base) !important;
-        padding: 9px 22px;
-        border-radius: 7px;
-        font-weight: 600;
+      }
+      .nav-links .btn-nav {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        color: var(--white) !important;
+        padding: 10px 26px;
+        border-radius: 100px;
+        font-weight: 500;
+      }
+      .nav-links .btn-nav::after {
+        content: " →";
       }
       .nav-links .btn-nav:hover {
-        background: #00bab0;
+        border-color: var(--turquoise);
+        color: var(--turquoise) !important;
       }
       .nav-hamburger {
         display: none;
@@ -153,35 +178,69 @@
         min-height: 100vh;
         display: flex;
         align-items: stretch;
-        overflow: visible;
+        overflow: hidden;
+        background: url("hero_bg.webp") right center / cover no-repeat;
       }
       #three-canvas {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 0;
+        display: none;
       }
       .hero-overlay {
         position: absolute;
         inset: 0;
         z-index: 1;
         background: linear-gradient(
-          120deg,
-          rgba(0, 13, 20, 0.9) 0%,
-          rgba(0, 40, 60, 0.55) 50%,
-          rgba(0, 13, 20, 0.75) 100%
-        );
+            90deg,
+            rgba(0, 13, 20, 0.55) 0%,
+            rgba(0, 13, 20, 0.22) 28%,
+            transparent 50%
+          ),
+          linear-gradient(
+            to top,
+            rgba(0, 13, 20, 0.75) 0%,
+            transparent 10%
+          );
       }
+      /* ── Giant backdrop text behind the product ── */
+      .hero-bigtext {
+        position: absolute;
+        z-index: 1;
+        top: 14%;
+        left: 29%;
+        font-size: clamp(90px, 14.5vw, 235px);
+        font-weight: 800;
+        letter-spacing: 4px;
+        line-height: 1;
+        white-space: nowrap;
+        pointer-events: none;
+        user-select: none;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.24) 0%,
+          rgba(180, 230, 235, 0.13) 55%,
+          rgba(0, 208, 197, 0.05) 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      /* Desktop: product, podium & giant text are baked into the
+         pixel-exact background plate — hide the live versions */
+      @media (min-width: 769px) {
+        .hero-bigtext,
+        .hero-right {
+          display: none !important;
+        }
+      }
+
       /* ── Hero layout — text left, giant product behind ── */
       /* Two-column split */
       .hero-inner {
         position: relative;
         z-index: 2;
         width: 100%;
-        max-width: 1280px;
         margin: 0 auto;
-        padding: 60px 64px 80px;
+        padding: 90px 64px 40px;
         display: grid;
         grid-template-columns: 1fr 1fr;
         align-items: center;
@@ -199,23 +258,16 @@
         background: rgba(0, 208, 197, 0.08);
         border: 1px solid rgba(0, 208, 197, 0.28);
         color: var(--turquoise);
-        padding: 8px 18px;
-        border-radius: 100px;
-        font-size: 12.5px;
+        padding: 10px 20px;
+        border-radius: 12px;
+        font-size: 12px;
         font-weight: 500;
-        letter-spacing: 0.4px;
+        letter-spacing: 1.6px;
+        text-transform: uppercase;
         margin-bottom: 28px;
       }
-      .hero-badge::before {
-        content: "";
-        width: 7px;
-        height: 7px;
-        background: var(--turquoise);
-        border-radius: 50%;
-        animation: blink 2s ease-in-out infinite;
-      }
       .hero-title {
-        font-size: clamp(38px, 4.8vw, 72px);
+        font-size: clamp(34px, 5.2vw, 86px);
         font-weight: 900;
         line-height: 1.08;
         letter-spacing: -1.5px;
@@ -239,101 +291,152 @@
       }
       .hero-stats {
         display: flex;
-        gap: 1px;
-        border-radius: 10px;
-        overflow: hidden;
         align-self: flex-start;
+        background: rgba(0, 13, 20, 0.55);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        overflow: hidden;
       }
       .hero-stat {
-        padding: 16px 22px;
-        background: rgba(0, 61, 79, 0.55);
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(0, 208, 197, 0.15);
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        padding: 20px 26px;
       }
-      .hero-stat:first-child {
-        border-radius: 10px 0 0 10px;
+      .hero-stat + .hero-stat {
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
       }
-      .hero-stat:last-child {
-        border-radius: 0 10px 10px 0;
+      .hs-icon {
+        width: 34px;
+        height: 34px;
+        flex-shrink: 0;
+        color: var(--turquoise);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .hs-icon svg {
+        width: 100%;
+        height: 100%;
       }
       .hs-val {
-        font-size: 22px;
-        font-weight: 900;
-        color: var(--turquoise);
-        line-height: 1;
-        margin-bottom: 3px;
+        font-size: 19px;
+        font-weight: 600;
+        color: var(--white);
+        line-height: 1.2;
+        margin-bottom: 2px;
       }
       .hs-lbl {
-        font-size: 10px;
+        font-size: 12.5px;
         color: rgba(255, 255, 255, 0.55);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        line-height: 1.4;
+        line-height: 1.3;
       }
       .hero-right {
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
-        transform: translateY(-60px);
+        transform: translateY(-6px);
       }
-      .hero-right::before {
+      /* soft dark ground haze so the podium blends into the scene */
+      .hero-right::after {
         content: "";
         position: absolute;
-        inset: -60px;
+        bottom: -110px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 135%;
+        height: 240px;
         border-radius: 50%;
         background: radial-gradient(
-          circle,
-          rgba(0, 208, 197, 0.08) 0%,
-          transparent 60%
+          ellipse at center,
+          rgba(0, 12, 18, 0.6) 0%,
+          rgba(0, 12, 18, 0.3) 45%,
+          transparent 70%
         );
-        animation: pulseGlow 4s ease-in-out infinite;
+        z-index: 0;
+        pointer-events: none;
       }
       .hero-product {
         position: relative;
         width: 100%;
-        max-width: 420px;
+        max-width: 650px;
         display: flex;
         align-items: center;
         justify-content: center;
       }
-      .hero-product::before {
-        content: "";
-        position: absolute;
-        width: 105%;
-        padding-top: 105%;
-        border-radius: 50%;
-        border: 1px dashed rgba(0, 208, 197, 0.22);
-        animation: spinRing 28s linear infinite;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
-      .hero-product::after {
-        content: "";
-        position: absolute;
-        width: 120%;
-        padding-top: 120%;
-        border-radius: 50%;
-        border: 1px solid rgba(0, 208, 197, 0.1);
-        animation: spinRing 20s linear infinite reverse;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
       .hero-product-img-wrap {
         position: relative;
-        width: 145%;
+        width: 100%;
         z-index: 2;
-        animation: floatProd 5s ease-in-out infinite;
+        display: flex;
+        justify-content: center;
       }
       .hero-product-img-wrap img {
-        width: 100%;
+        max-height: 60vh;
+        max-width: 100%;
+        width: auto;
         height: auto;
         display: block;
-        filter: drop-shadow(0 0 55px rgba(0, 208, 197, 0.4))
-          drop-shadow(0 0 25px rgba(0, 208, 197, 0.25))
+        filter: drop-shadow(0 0 55px rgba(0, 208, 197, 0.35))
+          drop-shadow(0 0 25px rgba(0, 208, 197, 0.2))
           drop-shadow(0 28px 40px rgba(0, 0, 0, 0.55));
+      }
+
+      /* ── Glowing podium under the product ── */
+      .hero-podium {
+        position: absolute;
+        bottom: -52px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 128%;
+        height: 116px;
+        z-index: 1;
+        pointer-events: none;
+      }
+      /* disc body / side */
+      .hero-podium::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 22px;
+        bottom: 0;
+        border-radius: 50%;
+        background: linear-gradient(180deg, #0d2230 0%, #030b11 85%);
+        box-shadow: 0 34px 80px rgba(0, 0, 0, 0.7);
+      }
+      /* top surface */
+      .hero-podium::after {
+        content: "";
+        position: absolute;
+        left: 2.5%;
+        right: 2.5%;
+        top: 8px;
+        height: 58%;
+        border-radius: 50%;
+        background: radial-gradient(
+          ellipse at 50% 35%,
+          #1d4256 0%,
+          #0a1e29 78%
+        );
+        border: 1px solid rgba(255, 255, 255, 0.09);
+      }
+      /* glowing ring around the disc */
+      .hero-podium-glow {
+        position: absolute;
+        left: 1%;
+        right: 1%;
+        bottom: 6px;
+        height: 48%;
+        border-radius: 50%;
+        border: 2px solid rgba(0, 208, 197, 0.85);
+        box-shadow: 0 0 18px rgba(0, 208, 197, 0.6),
+          0 0 55px rgba(0, 208, 197, 0.3),
+          inset 0 0 22px rgba(0, 208, 197, 0.25);
+        animation: pulseGlow 4s ease-in-out infinite;
       }
 
       /* ── Floating spec tags around the product ── */
@@ -524,7 +627,7 @@
       /* ─────────────── BUTTONS ─────────────── */
       .btn-primary {
         display: inline-block;
-        background: var(--turquoise);
+        background: linear-gradient(95deg, #35e6d8 0%, #00c9d8 100%);
         color: var(--bg-base);
         padding: 15px 32px;
         border-radius: 8px;
@@ -1469,6 +1572,8 @@
         border: 1px solid var(--card-border);
         border-radius: 12px;
         padding: 26px 18px;
+        min-width: 0;
+        overflow-wrap: break-word;
       }
       .a-icon {
         font-size: 26px;
@@ -1886,7 +1991,9 @@
       }
       .foot-links {
         display: flex;
-        gap: 22px;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px 22px;
       }
       .foot-links a {
         font-size: 12.5px;
@@ -2236,8 +2343,11 @@
         }
         #navbar,
         #navbar.scrolled {
-          padding-left: 24px;
-          padding-right: 24px;
+          left: 12px;
+          right: 12px;
+          top: 10px;
+          padding-left: 22px;
+          padding-right: 22px;
         }
         .nav-links {
           display: none;
@@ -2251,7 +2361,9 @@
         .nav-links.open {
           display: flex;
           background: rgba(0, 13, 20, 0.98);
-          border-bottom: 1px solid rgba(0, 208, 197, 0.2);
+          border: 1px solid rgba(0, 208, 197, 0.2);
+          border-radius: 18px;
+          margin-top: 10px;
           padding: 10px 0;
         }
         .nav-links li a {
@@ -2261,6 +2373,17 @@
         .nav-hamburger {
           display: flex;
         }
+        #hero {
+          background-position: 0% center;
+        }
+        .hero-overlay {
+          background: linear-gradient(
+            to bottom,
+            rgba(0, 13, 20, 0.35) 0%,
+            rgba(0, 13, 20, 0.55) 55%,
+            rgba(0, 13, 20, 0.85) 100%
+          );
+        }
         .hero-inner {
           grid-template-columns: 1fr;
           padding: 110px 24px 60px;
@@ -2268,10 +2391,30 @@
         }
         .hero-right {
           order: -1;
+          transform: none;
+          margin-top: 12px;
         }
         .hero-product {
           max-width: 280px;
-          margin: 0 auto;
+          margin: 0 auto 40px;
+        }
+        .hero-product-img-wrap img {
+          max-height: 44vh;
+        }
+        .hero-podium {
+          bottom: -34px;
+          height: 78px;
+          width: 135%;
+        }
+        .hero-bigtext {
+          top: 90px;
+          left: 0;
+          right: 0;
+          transform: none;
+          text-align: center;
+          overflow: hidden;
+          font-size: clamp(64px, 24vw, 130px);
+          letter-spacing: 2px;
         }
         .hero-spec-tag {
           display: none;
@@ -2295,7 +2438,7 @@
           grid-template-columns: repeat(3, 1fr);
         }
         .advisors-grid {
-          grid-template-columns: repeat(2, 1fr);
+          grid-template-columns: repeat(2, minmax(0, 1fr));
         }
         .purity-panel {
           flex-direction: column;
@@ -2330,6 +2473,311 @@
           grid-template-columns: 1fr 1fr;
         }
       }
+
+      /* ═══════════════════════════════════════════════
+         ECO / GREEN-ENERGY THEME PASS
+         Carries the hero's nature-meets-tech vibe through
+         every section. CI: #003D4F · #FFFFFF · #00D0C5,
+         with muted natural greens as supporting accents.
+      ═══════════════════════════════════════════════ */
+      :root {
+        --eco: #5ecb92;
+        --eco-glow: rgba(94, 203, 146, 0.09);
+      }
+
+      /* section tag underline: turquoise → leaf green */
+      .sec-tag::before {
+        background: linear-gradient(90deg, var(--turquoise), var(--eco));
+      }
+
+      /* soft green + teal aurora glows layered into dark sections */
+      #problem {
+        background: radial-gradient(
+            900px 480px at 88% 12%,
+            var(--eco-glow),
+            transparent 62%
+          ),
+          radial-gradient(
+            700px 420px at 6% 90%,
+            rgba(0, 208, 197, 0.06),
+            transparent 60%
+          ),
+          var(--bg-mid);
+      }
+      #solution {
+        background: radial-gradient(
+            850px 500px at 10% 15%,
+            var(--eco-glow),
+            transparent 60%
+          ),
+          radial-gradient(
+            750px 450px at 92% 80%,
+            rgba(0, 208, 197, 0.07),
+            transparent 60%
+          ),
+          var(--bg-base);
+      }
+      #technology {
+        background: radial-gradient(
+            900px 500px at 90% 8%,
+            var(--eco-glow),
+            transparent 60%
+          ),
+          linear-gradient(180deg, var(--bg-mid) 0%, var(--indigo) 100%);
+      }
+      #market {
+        background: radial-gradient(
+            850px 480px at 12% 10%,
+            var(--eco-glow),
+            transparent 62%
+          ),
+          radial-gradient(
+            700px 400px at 90% 90%,
+            rgba(0, 208, 197, 0.06),
+            transparent 60%
+          ),
+          var(--bg-mid);
+      }
+      #team {
+        background: radial-gradient(
+            800px 450px at 85% 15%,
+            var(--eco-glow),
+            transparent 60%
+          ),
+          linear-gradient(180deg, var(--bg-mid) 0%, var(--indigo) 100%);
+      }
+      #advantage {
+        background: radial-gradient(
+            900px 500px at 10% 12%,
+            var(--eco-glow),
+            transparent 60%
+          ),
+          var(--indigo);
+      }
+
+      /* scenic backdrops: applications + contact close the loop
+         with the hero's landscape */
+      #applications {
+        background: linear-gradient(
+            180deg,
+            rgba(0, 13, 20, 0.93) 0%,
+            rgba(0, 24, 31, 0.82) 50%,
+            rgba(0, 13, 20, 0.95) 100%
+          ),
+          url("green-energy-landscape.webp") center 30% / cover
+            no-repeat;
+      }
+      #contact {
+        background: linear-gradient(
+            180deg,
+            rgba(0, 13, 20, 0.95) 0%,
+            rgba(0, 28, 36, 0.78) 55%,
+            rgba(0, 16, 22, 0.93) 100%
+          ),
+          url("green-energy-landscape.webp") center 68% / cover
+            no-repeat;
+      }
+
+      /* giant leaf watermark (brand logomark) in select sections */
+      #solution {
+        background: url("leaf-watermark.png") right -120px bottom
+            -140px / 560px auto no-repeat,
+          radial-gradient(
+            850px 500px at 10% 15%,
+            var(--eco-glow),
+            transparent 60%
+          ),
+          radial-gradient(
+            750px 450px at 92% 80%,
+            rgba(0, 208, 197, 0.07),
+            transparent 60%
+          ),
+          var(--bg-base);
+      }
+      #advantage {
+        background: url("leaf-watermark.png") left -140px top
+            -120px / 520px auto no-repeat,
+          radial-gradient(
+            900px 500px at 10% 12%,
+            var(--eco-glow),
+            transparent 60%
+          ),
+          var(--indigo);
+      }
+
+      /* hairline energy divider at the top of dark sections */
+      #problem,
+      #technology,
+      #market,
+      #team {
+        box-shadow: inset 0 1px 0 rgba(0, 208, 197, 0.14),
+          inset 0 2px 24px rgba(94, 203, 146, 0.04);
+      }
+
+      /* ── Floating energy particles (site-wide, subtle) ── */
+      .eco-particles {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 3;
+        overflow: hidden;
+      }
+      .eco-particles span {
+        position: absolute;
+        bottom: -3%;
+        border-radius: 50%;
+        opacity: 0;
+        animation: ecoRise linear infinite;
+      }
+      .eco-particles span:nth-child(odd) {
+        background: var(--turquoise);
+        box-shadow: 0 0 10px rgba(0, 208, 197, 0.7);
+      }
+      .eco-particles span:nth-child(even) {
+        background: var(--eco);
+        box-shadow: 0 0 10px rgba(94, 203, 146, 0.7);
+      }
+      .eco-particles span:nth-child(1)  { left: 7%;  width: 4px; height: 4px; animation-duration: 19s; animation-delay: 0s; }
+      .eco-particles span:nth-child(2)  { left: 18%; width: 3px; height: 3px; animation-duration: 24s; animation-delay: 6s; }
+      .eco-particles span:nth-child(3)  { left: 31%; width: 5px; height: 5px; animation-duration: 17s; animation-delay: 3s; }
+      .eco-particles span:nth-child(4)  { left: 44%; width: 3px; height: 3px; animation-duration: 26s; animation-delay: 10s; }
+      .eco-particles span:nth-child(5)  { left: 55%; width: 4px; height: 4px; animation-duration: 21s; animation-delay: 1.5s; }
+      .eco-particles span:nth-child(6)  { left: 66%; width: 3px; height: 3px; animation-duration: 25s; animation-delay: 8s; }
+      .eco-particles span:nth-child(7)  { left: 76%; width: 5px; height: 5px; animation-duration: 18s; animation-delay: 4.5s; }
+      .eco-particles span:nth-child(8)  { left: 86%; width: 3px; height: 3px; animation-duration: 23s; animation-delay: 12s; }
+      .eco-particles span:nth-child(9)  { left: 93%; width: 4px; height: 4px; animation-duration: 20s; animation-delay: 2s; }
+      .eco-particles span:nth-child(10) { left: 50%; width: 3px; height: 3px; animation-duration: 28s; animation-delay: 15s; }
+      @keyframes ecoRise {
+        0% {
+          transform: translateY(0);
+          opacity: 0;
+        }
+        8% {
+          opacity: 0.4;
+        }
+        85% {
+          opacity: 0.25;
+        }
+        100% {
+          transform: translateY(-108vh);
+          opacity: 0;
+        }
+      }
+
+      /* ── Sustainability ticker band under the hero ── */
+      .eco-ticker {
+        position: relative;
+        z-index: 4;
+        overflow: hidden;
+        background: rgba(0, 20, 27, 0.92);
+        border-top: 1px solid rgba(0, 208, 197, 0.18);
+        border-bottom: 1px solid rgba(0, 208, 197, 0.18);
+        padding: 15px 0;
+      }
+      .eco-ticker-track {
+        display: flex;
+        gap: 56px;
+        width: max-content;
+        animation: ecoTicker 38s linear infinite;
+      }
+      .eco-ticker span {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        white-space: nowrap;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.7);
+      }
+      .eco-ticker span i {
+        font-style: normal;
+        color: var(--turquoise);
+      }
+      .eco-ticker span:nth-child(even) i {
+        color: var(--eco);
+      }
+      @keyframes ecoTicker {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* ── Production-system version switcher ── */
+      #sys-card .sys-img--alt {
+        position: absolute;
+        inset: 0;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 0.45s ease;
+        z-index: 1;
+        background: #041019;
+      }
+      #sys-card.show-alt .sys-img--alt {
+        opacity: 1;
+      }
+      #sys-card .elec-lab-caption {
+        z-index: 2;
+      }
+      .sys-switch {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        z-index: 3;
+        display: flex;
+        gap: 5px;
+        background: rgba(0, 13, 20, 0.6);
+        border: 1px solid rgba(0, 208, 197, 0.28);
+        border-radius: 100px;
+        padding: 4px;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+      .sys-btn {
+        border: 0;
+        background: transparent;
+        color: rgba(255, 255, 255, 0.65);
+        font-family: "Poppins", sans-serif;
+        font-size: 10.5px;
+        font-weight: 600;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        padding: 7px 14px;
+        border-radius: 100px;
+        cursor: pointer;
+        transition: all 0.25s;
+        white-space: nowrap;
+      }
+      .sys-btn:hover {
+        color: var(--turquoise);
+      }
+      .sys-btn.is-active {
+        background: var(--turquoise);
+        color: var(--bg-base);
+      }
+      .sys-btn:focus-visible {
+        outline: 2px solid var(--turquoise);
+        outline-offset: 2px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .eco-particles,
+        .eco-ticker-track {
+          animation: none;
+        }
+        .eco-particles {
+          display: none;
+        }
+      }
+      @media (max-width: 768px) {
+        .eco-particles {
+          display: none;
+        }
+      }
     </style>
   </head>
   <body>
@@ -2345,12 +2793,11 @@
         />
       </a>
       <ul class="nav-links" id="nav-links">
-        <li><a href="#problem">Problem</a></li>
-        <li><a href="#solution">Solution</a></li>
+        <li><a href="#hero" class="active">Home</a></li>
         <li><a href="#technology">Technology</a></li>
         <li><a href="#applications">Applications</a></li>
-        <li><a href="#market">Market</a></li>
-        <li><a href="#team">Team</a></li>
+        <li><a href="#team">About</a></li>
+        <li><a href="#contact">Contact</a></li>
         <li><a href="#contact" class="btn-nav">Contact Us</a></li>
       </ul>
       <div class="nav-hamburger" id="hamburger">
@@ -2365,145 +2812,103 @@
       <canvas id="three-canvas"></canvas>
       <div class="hero-overlay"></div>
 
+      <!-- Giant backdrop text behind product -->
+      <div class="hero-bigtext" aria-hidden="true">GREEN H₂</div>
+
       <!-- Hero: text left, product large behind -->
       <div class="hero-inner">
         <!-- Text column -->
         <div class="hero-left">
-          <div class="hero-badge aos">
-            🌿 First Membraneless Electrolyzer in Thailand
-          </div>
+          <div class="hero-badge aos">🌿 Next-Gen Green Hydrogen</div>
 
           <h1 class="hero-title aos d1">
-            Green Hydrogen,<br />
-            <span class="hl">The Clean Energy</span><br />
-            Solution
+            Membraneless<br />
+            <span class="hl">Electrolyzer</span>
           </h1>
 
+          <p
+            class="aos d2"
+            style="
+              font-size: clamp(19px, 2vw, 26px);
+              font-weight: 600;
+              color: var(--white);
+              line-height: 1.45;
+              margin-bottom: 16px;
+            "
+          >
+            Low-cost green hydrogen for a<br />cleaner industrial future.
+          </p>
+
           <p class="hero-sub aos d2">
-            We design and manufacture the world's most cost-efficient hydrogen
-            technology — enabling industrial decarbonization at scale.
+            A scalable, membrane-free hydrogen solution built for efficient,
+            decentralized clean energy applications.
           </p>
 
           <div class="hero-ctas aos d3">
-            <a href="#technology" class="btn-primary">Explore Technology</a>
-            <a href="#contact" class="btn-ghost">Contact Us</a>
+            <a href="#technology" class="btn-primary">Explore Technology →</a>
+            <a href="#applications" class="btn-ghost">View Pilot Applications</a>
           </div>
 
           <div class="hero-stats aos d4">
             <div class="hero-stat">
-              <div class="hs-val">&gt;2×</div>
-              <div class="hs-lbl">Cheaper than<br />current market</div>
+              <div class="hs-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3s6 6.4 6 10.2a6 6 0 0 1-12 0C6 9.4 12 3 12 3z" />
+                </svg>
+              </div>
+              <div>
+                <div class="hs-val">99.9%</div>
+                <div class="hs-lbl">Purity Output</div>
+              </div>
             </div>
             <div class="hero-stat">
-              <div class="hs-val">99.74%</div>
-              <div class="hs-lbl">H₂ Purity<br />achieved</div>
+              <div class="hs-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z" />
+                </svg>
+              </div>
+              <div>
+                <div class="hs-val">Low</div>
+                <div class="hs-lbl">Energy Use</div>
+              </div>
             </div>
             <div class="hero-stat">
-              <div class="hs-val">TRL 5</div>
-              <div class="hs-lbl">Pilot stage<br />ready</div>
+              <div class="hs-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2 21 7v10l-9 5-9-5V7l9-5z" />
+                  <path d="M12 12 21 7M12 12v10M12 12 3 7" />
+                </svg>
+              </div>
+              <div>
+                <div class="hs-val">Modular</div>
+                <div class="hs-lbl">Design</div>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Product image — absolutely positioned, large, behind text -->
+        <!-- Product on glowing podium, giant text behind -->
         <div class="hero-right">
           <div class="hero-product" id="hero-product">
+            <!-- Glowing podium -->
+            <div class="hero-podium">
+              <div class="hero-podium-glow"></div>
+            </div>
+
             <!-- Product image -->
             <div class="hero-product-img-wrap" id="hero-elec-wrap">
               <img
-                src="Electrolyzer_back.png"
+                src="electrolyzer_hero.webp"
                 alt="Solution Tech Membraneless Electrolyzer"
                 id="hero-elec-img"
               />
-            </div>
-
-            <!-- Orbiting dots -->
-            <div
-              style="
-                position: absolute;
-                inset: 0;
-                animation: spinRing 10s linear infinite;
-                pointer-events: none;
-                z-index: 5;
-              "
-            >
-              <div
-                style="
-                  position: absolute;
-                  top: 0;
-                  left: 50%;
-                  transform: translate(-50%, -50%);
-                  width: 10px;
-                  height: 10px;
-                  border-radius: 50%;
-                  background: #00d0c5;
-                  box-shadow: 0 0 16px #00d0c5;
-                "
-              ></div>
-            </div>
-            <div
-              style="
-                position: absolute;
-                inset: 0;
-                animation: spinRing 14s linear infinite reverse;
-                pointer-events: none;
-                z-index: 5;
-              "
-            >
-              <div
-                style="
-                  position: absolute;
-                  bottom: 0;
-                  left: 50%;
-                  transform: translate(-50%, 50%);
-                  width: 7px;
-                  height: 7px;
-                  border-radius: 50%;
-                  background: #00d0c5;
-                  box-shadow: 0 0 10px #00d0c5;
-                  opacity: 0.65;
-                "
-              ></div>
-            </div>
-
-            <!-- Floating spec tags -->
-            <div class="hero-spec-tag" style="top: 8%; left: -18%">
-              <div class="hero-spec-icon">⚡</div>
-              <div class="hero-spec-text">
-                <div class="hero-spec-val">&gt;2× Lower Cost</div>
-                <div class="hero-spec-lbl">vs PEM / AEM</div>
-              </div>
-            </div>
-
-            <div class="hero-spec-tag" style="top: 8%; right: -16%">
-              <div class="hero-spec-icon">🧪</div>
-              <div class="hero-spec-text">
-                <div class="hero-spec-val">99.78% Purity</div>
-                <div class="hero-spec-lbl">Independently Certified</div>
-              </div>
-            </div>
-
-            <div class="hero-spec-tag" style="bottom: 22%; left: -20%">
-              <div class="hero-spec-icon">🌱</div>
-              <div class="hero-spec-text">
-                <div class="hero-spec-val">Zero CO₂</div>
-                <div class="hero-spec-lbl">At Point of Use</div>
-              </div>
-            </div>
-
-            <div class="hero-spec-tag" style="bottom: 22%; right: -18%">
-              <div class="hero-spec-icon">🏭</div>
-              <div class="hero-spec-text">
-                <div class="hero-spec-val">Drop-in Ready</div>
-                <div class="hero-spec-lbl">&lt;10% Blend · No Retrofit</div>
-              </div>
             </div>
 
             <!-- Made in Thailand badge -->
             <div
               style="
                 position: absolute;
-                bottom: -8%;
+                bottom: -15%;
                 left: 50%;
                 transform: translateX(-50%);
                 z-index: 6;
@@ -2549,6 +2954,28 @@
         <div class="scroll-cue-arrow"></div>
       </div>
     </section>
+
+    <!-- Floating energy particles (decorative) -->
+    <div class="eco-particles" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <!-- Sustainability ticker -->
+    <div class="eco-ticker" aria-hidden="true">
+      <div class="eco-ticker-track">
+        <span><i>🌿</i> Zero CO₂ at point of use</span>
+        <span><i>💧</i> Water in — hydrogen out</span>
+        <span><i>⚡</i> Powered by renewables</span>
+        <span><i>♻️</i> Fossil-free industrial heat</span>
+        <span><i>🇹🇭</i> Designed &amp; built in Thailand</span>
+        <span><i>🌿</i> Zero CO₂ at point of use</span>
+        <span><i>💧</i> Water in — hydrogen out</span>
+        <span><i>⚡</i> Powered by renewables</span>
+        <span><i>♻️</i> Fossil-free industrial heat</span>
+        <span><i>🇹🇭</i> Designed &amp; built in Thailand</span>
+      </div>
+    </div>
 
     <!-- ══════════════════════════════════════════════
      PROBLEM
@@ -2799,16 +3226,28 @@
             </div>
             <div class="pg-label">Back View — Studio</div>
           </div>
-          <div class="elec-lab-card">
+          <div class="elec-lab-card" id="sys-card">
             <img
+              class="sys-img"
               src="Electrolyzer_system.jpg"
-              alt="Membraneless Electrolyzer — Full System Rack"
+              alt="Working production system — latest version"
+            />
+            <img
+              class="sys-img sys-img--alt"
+              src="Electrolyzer_back.png"
+              alt="Earlier generation production system"
             />
             <div class="elec-lab-caption">
               <div class="elec-lab-dot"></div>
-              <span class="elec-lab-caption-txt"
-                >Working Production System — Live Pilot</span
+              <span class="elec-lab-caption-txt" id="sys-cap"
+                >Working Production System — Live Pilot · Latest (V2)</span
               >
+            </div>
+            <div class="sys-switch" role="tablist" aria-label="System version">
+              <button type="button" class="sys-btn is-active" data-sys="0">
+                Latest · V2
+              </button>
+              <button type="button" class="sys-btn" data-sys="1">V1</button>
             </div>
           </div>
         </div>
@@ -5323,6 +5762,29 @@
             }
           });
         }
+      })();
+
+      /* ───────────────────────────────────────────
+   PRODUCTION SYSTEM VERSION SWITCHER
+─────────────────────────────────────────── */
+      (function () {
+        const card = document.getElementById("sys-card");
+        if (!card) return;
+        const cap = document.getElementById("sys-cap");
+        const caps = [
+          "Working Production System — Live Pilot · Latest (V2)",
+          "First Generation System — Early Prototype (V1)",
+        ];
+        card.querySelectorAll(".sys-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const i = +btn.dataset.sys;
+            card.classList.toggle("show-alt", i === 1);
+            card
+              .querySelectorAll(".sys-btn")
+              .forEach((b) => b.classList.toggle("is-active", b === btn));
+            if (cap) cap.textContent = caps[i];
+          });
+        });
       })();
 
       /* ───────────────────────────────────────────
